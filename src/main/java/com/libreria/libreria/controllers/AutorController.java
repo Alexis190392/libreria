@@ -26,6 +26,12 @@ public class AutorController {
         return "administrarAutores";
     }
     
+    @GetMapping("/list")
+    public String buscarAutores(Model model){
+        model.addAttribute("autores", as.searchName(nombre));
+        return "administrarAutores";
+    }
+    
     @GetMapping("/form")
     public String crearAutor(){
         return "crearAutor";

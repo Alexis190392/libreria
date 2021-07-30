@@ -12,8 +12,35 @@ public class AutorServicio {
     @Autowired
     private AutorRepository ar;
     
+    //buscar todos
     public List<Autor> listAll(){
         return ar.findAll();
+    }
+    
+    //buscar uno por nombre - buscador general
+    
+    public Autor searchName(String nombre) throws Exception{
+        try{
+            for (Autor a : listAll()) {         //busca en el listado de personas uno a uno
+                if(a.getNombre().toLowerCase().contains(nombre.toLowerCase())){ //compara cada caso con el nombre del objeto en esa iteracion
+                    return a;
+                } else if(searchId(nombre)!= null){  //sino, busca en id, si no lo encuentra, va al siguiente ciclo del each
+                    return searchId(nombre);
+                }
+            }
+        } catch (Exception e){
+            throw new Exception("no se encuentra autor");
+        } 
+        return null; //si no encuentra coincidencias, no retorna nada
+    }
+    
+    //buscar uno por id
+    public Autor searchId(String id) throws Exception{
+        try{
+            return ar.getById(id);
+        }catch (Exception e){
+            throw new Exception("no se encuentra autor");
+        } 
     }
     
     public Autor save(Autor autor){
