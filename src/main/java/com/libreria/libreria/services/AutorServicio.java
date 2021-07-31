@@ -1,8 +1,11 @@
 package com.libreria.libreria.services;
 
 import com.libreria.libreria.entidades.Autor;
+import com.libreria.libreria.excepciones.WebException;
 import com.libreria.libreria.repositories.AutorRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +15,46 @@ public class AutorServicio {
     @Autowired
     private AutorRepository ar;
     
+                    /*   Guardar     */
+    
+    /*public Autor save(Autor autor){
+        return ar.save(autor);
+    }
+    
+    */
+    @Transactional
+    public Autor save(Autor a) throws WebException{
+        if(a.getNombre().isEmpty() || a.getNombre() == null){
+            throw new WebException("No se ha encontado Autor que coincida con la busqueda");
+        }
+        return ar.save(a);
+    }
+    
+    @Transactional
+    public Autor save(String nombre){
+        Autor a = new Autor();
+        a.setNombre(nombre);
+        return ar.save(a);
+    }
+    
+                    /*    BUSQUEDA    */
+    
     //buscar todos
     public List<Autor> listAll(){
         return ar.findAll();
     }
     
-    //buscar uno por nombre - buscador general
+    //buscador general
+    public List<Autor> listByQuery(String query) {
+        return ar.searchId("%" + query + "%");
+    }
+    
+    public Optional<Autor> searchId(String id){
+        return ar.findById(id);
+    }
+    
+    /*
+    //buscar uno por nombre 
     
     public Autor searchName(String nombre) throws Exception{
         try{
@@ -34,6 +71,9 @@ public class AutorServicio {
         return null; //si no encuentra coincidencias, no retorna nada
     }
     
+    
+    
+    
     //buscar uno por id
     public Autor searchId(String id) throws Exception{
         try{
@@ -42,20 +82,19 @@ public class AutorServicio {
             throw new Exception("no se encuentra autor");
         } 
     }
+
+*/
     
-    public Autor save(Autor autor){
-        return ar.save(autor);
-    }
-    
-    public Autor save(String nombre){
-        Autor a = new Autor();
-        a.setNombre(nombre);
-        return ar.save(a);
-    }
+    /*   ELIMINAR     */
     
     public void delete(Autor a){
-        if(ar.findById(a.getId()).isPresent()){
-            ar.delete(a);
+        ar.delete(a);
+    }
+    
+    public void deleteById(String id){
+        Optional<Autor> op = ar.findById(id);
+        if(op.isPresent()){
+            ar.delete(op.get());
         }
     }
 }
