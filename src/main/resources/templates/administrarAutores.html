@@ -14,10 +14,12 @@
     <div class="d-flex justify-content-end">
         <p class="display-3">ADMINISTAR AUTOR</p>
     </div>
-
+    
+    <!--Busqueda-->
     <div class="m-4">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+      <a class="btn btn-outline-dark mb-2" th:href="@{/autor/form}">CREAR AUTOR</a>
+      <form class="d-flex" th:action="@{/autor/list}" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Buscar" name="query" aria-label="Search">
         <button class="btn btn-outline-info" type="submit">Buscar</button>
       </form>
       <br>
@@ -35,12 +37,12 @@
             <td th:text="${a.id}"></td>
             <td th:text="${a.nombre}"></td>
             <td>
-              <button type="button" class="btn btn-outline-success">Editar</button>
-              <button type="button" class="btn btn-outline-danger">Eliminar</button>
+              <a type="button" class="btn btn-outline-success" th:href="@{/autor/form} + '?id=' + ${a.id}">Editar</a>
+              <a type="button" class="btn btn-outline-danger" th:href="@{/autor/delete} + '?id=' + ${a.id}">Eliminar</a>
             </td>
           </tr>
-          
         </tbody>
+        <p th:if="${autores.isEmpty}">No se encontraron resultados coincidentes</p>
       </table>
     </div>
 

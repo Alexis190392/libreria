@@ -15,13 +15,13 @@
         <p class="display-3">CREAR AUTOR</p>
     </div>
 
-    <button type="submit" class="btn btn-outline-dark" th:href="@{autor/list}">Volver</button>
+    <a type="submit" class="btn btn-outline-dark" th:href="@{/autor/list}">Volver</a>
 
-      <form th:action="@{/autor/save}" method="POST" th:objet="${autor}"> <!--objeto como lo es-->
+      <form th:action="@{/autor/save}" method="POST" th:object="${autor}"> <!--objeto como lo es-->
+        <input hidden th:field="*{id}"> <!--agrego el id oculto(hidden) para que lo haga automatico-->
         <div class="row m-5">
           <div class="col-lg-6">
             <div class="form-label">
-              <input hidden th:field="*{id}"> <!--agrego el id oculto(hidden) para que lo haga automatico-->
               <label for="" >Ingrese nombre del autor a añadir</label>
               <input type="text" class="form-control" th:field="*{nombre}"> <!--*{atributo del objeto anterior mencionado}-->
             </div>
