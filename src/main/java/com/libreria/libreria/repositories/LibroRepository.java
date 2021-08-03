@@ -14,10 +14,9 @@ public interface LibroRepository extends JpaRepository<Libro,String>{
     
     //creo la query de busqueda de libro
     @Query("select l from Libro l where "
-            + "l.isbn LIKE :query or "
             + "l.titulo LIKE :query or "
             + "l.anio LIKE :query or "
-            + "l.autor LIKE :query or"
+            + "l.autor LIKE :query or "
             + "l.editorial LIKE :query")
     List<Libro> findByQuery(@Param("query") String query);
     
@@ -25,14 +24,14 @@ public interface LibroRepository extends JpaRepository<Libro,String>{
 //    @Query("select l from Libro l where l.isbn = :isbn")
 //    List<Libro> findByIsbn(@Param("isbn") Long isbn);
 //    
-    
-    @Query("select l from Libro l where l.anio = :anio")
-    List<Libro> findByQuery(@Param("anio") Integer anio);
+//    
+//    @Query("select l from Libro l where l.anio = :anio")
+//    List<Libro> findByQuery(@Param("anio") Integer anio);
 
     
     ////////////////////modifico a optional para buscar y traer solo ese resultado/////////////////////////////////
     @Query("select l from Libro l where l.isbn = :isbn")
-    Optional<Libro> findById(Long bn);
+    Optional<Libro> findById(@Param("isbn") Long isbn);
     
     
 }

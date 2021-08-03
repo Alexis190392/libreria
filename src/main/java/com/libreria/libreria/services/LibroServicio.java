@@ -1,7 +1,5 @@
 package com.libreria.libreria.services;
 
-import com.libreria.libreria.entidades.Autor;
-import com.libreria.libreria.entidades.Editorial;
 import com.libreria.libreria.entidades.Libro;
 import com.libreria.libreria.repositories.LibroRepository;
 import java.util.List;
@@ -22,6 +20,26 @@ public class LibroServicio {
     
     
     
+    //guardar
+    @Transactional
+    public Libro save(Libro libro){
+        return lr.save(libro);
+    }
+    
+    @Transactional
+    public Libro save(Long isbn, String titulo,Integer anio,Integer ejemplares,Integer prestados,String autor,String editorial){
+        Libro l = new Libro();
+        l.setAnio(anio);
+        l.setAutor(autor);
+        l.setEditorial(editorial);
+        l.setEjemplares(ejemplares);
+        l.setIsbn(isbn);
+        l.setPrestados(prestados);
+        l.setTitulo(titulo);
+        return lr.save(l);
+    }
+    
+    
     public List<Libro> listAll(){
         return lr.findAll(); 
     }
@@ -36,37 +54,37 @@ public class LibroServicio {
         return lr.findById(isbn);
     }
     
-    public List<Libro> findByQuery(Integer anio){
-        return lr.findByQuery(anio);
+//    public List<Libro> findByQuery(Integer anio){
+//        return lr.findByQuery(anio);
+//    }
+    
+    
+    
+    
+
+    
+    //  Anterior
+//    public String delete(Libro libro){
+//        
+//        if(lr.findById(libro.getIsbn().toString()).isPresent()){
+//            lr.delete(libro);
+//            return "Libro Eliminado";
+//        } else{
+//            return "Libro no existe";
+//        }
+//    }
+    
+    
+    //ahora el delete
+    
+    public void delete (Libro libro){
+        lr.delete(libro);
     }
     
-    
-    
-    
-    @Transactional
-    public Libro save(Libro libro){
-        return lr.save(libro);
-    }
-    
-    public Libro save(Long isbn, String titulo,Integer anio,Integer ejemplares,Integer prestados,String autor,String editorial){
-        Libro l = new Libro();
-        l.setAnio(anio);
-        l.setAutor(autor);
-        l.setEditorial(editorial);
-        l.setEjemplares(ejemplares);
-        l.setIsbn(isbn);
-        l.setPrestados(prestados);
-        l.setTitulo(titulo);
-        return lr.save(l);
-    }
-    
-    public String delete(Libro libro){
-        
-        if(lr.findById(libro.getIsbn().toString()).isPresent()){
-            lr.delete(libro);
-            return "Libro Eliminado";
-        } else{
-            return "Libro no existe";
+    public void deleteByIsbn(Long isbn){
+        Optional<Libro> op = lr.findById(isbn);
+        if(op.isPresent()){
+            lr.delete(op.get()); //nos trae como objeto para eliminarlo
         }
     }
 }

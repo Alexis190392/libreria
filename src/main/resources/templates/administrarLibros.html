@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head :: head"></head>>
+<head th:replace="/fragments/head :: head"></head>
 <body>
   <header th:replace="/fragments/header :: header"></header>
     <div class="d-flex justify-content-end">
@@ -8,11 +8,13 @@
     </div>
 
     <div class="m-4">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+      <a class="btn btn-outline-dark mb-2" th:href="@{/libro/form}">CREAR LIBRO</a>
+      <form class="d-flex" th:action="@{/libro/list}" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" name="query">
         <button class="btn btn-outline-info" type="submit">Buscar</button>
       </form>
       <br>
+
       <table class="table">
         <thead>
           <tr>
@@ -36,11 +38,17 @@
             <td th:text="${l.ejemplares}"></td>
             <td th:text="${l.prestados}"></td>
             <td>
+              <!--
               <button type="button" class="btn btn-outline-success">Editar</button>
               <button type="button" class="btn btn-outline-danger">Eliminar</button>
+                -->
+
+              <a type="button" class="btn btn-outline-success" th:href="@{/libro/form} + '?isbn=' + ${l.isbn}">Editar</a>
+              <a type="button" class="btn btn-outline-danger" th:href="@{/libro/delete} + '?isbn=' + ${l.isbn}">Eliminar</a>
             </td>
           </tr>
         </tbody>
+        <p th:if="${libros.isEmpty}">No se encontraron resultados coincidentes</p>
       </table>
       <div style="display:flex; justify-content: flex-end; ">
         <p style="padding: px; display: flex; justify-content: flex-end;">Cantidad de Resultados: 10 - 200</p>
