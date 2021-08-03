@@ -5,6 +5,8 @@ import com.libreria.libreria.entidades.Editorial;
 import com.libreria.libreria.entidades.Libro;
 import com.libreria.libreria.repositories.LibroRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,10 @@ public class LibroServicio {
     
     @Autowired
     private LibroRepository lr;
-    @Autowired
-    private AutorServicio as;
-    @Autowired
-    private EditorialServicio es;
+//    @Autowired
+//    private AutorServicio as;
+//    @Autowired
+//    private EditorialServicio es;
     
     
     
@@ -24,6 +26,24 @@ public class LibroServicio {
         return lr.findAll(); 
     }
     
+    
+    //buscador general de libros en la db
+    public List<Libro> findByQuery(String query){
+        return lr.findByQuery("%"+query+"%");
+    }
+    
+//    public Optional<Libro> findByQuery(Long isbn){
+//        return lr.findByQuery(isbn);
+//    }
+//    
+//    public Optional<Libro> findByQuery(Integer anio){
+//        return lr.findByQuery(anio);
+//    }
+    
+    
+    
+    
+    @Transactional
     public Libro save(Libro libro){
         return lr.save(libro);
     }

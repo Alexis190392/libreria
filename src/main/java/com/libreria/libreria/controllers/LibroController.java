@@ -18,9 +18,19 @@ public class LibroController {
     @Autowired
     private LibroServicio ls;
     
+//    @GetMapping("/list")
+//    public String listarLibros(Model model){
+//        model.addAttribute("libros", ls.listAll());
+//        return "administrarLibros";
+//    }
+    
     @GetMapping("/list")
-    public String listarLibros(Model model){
-        model.addAttribute("libros", ls.listAll());
+    public String listarLibros(Model model, @RequestParam(required= false) String query){
+        if(query != null){
+            model.addAttribute("libros", ls.findByQuery(query));
+        } else {
+            model.addAttribute("libros", ls.listAll());
+        }
         return "administrarLibros";
     }
     

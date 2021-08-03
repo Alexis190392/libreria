@@ -21,4 +21,12 @@ public interface LibroRepository extends JpaRepository<Libro,String>{
     List<Libro> findByQuery(@Param("query") String query);
     
     
+    @Query("select l from Libro l where l.isbn = :isbn")
+    List<Libro> findByQuery(@Param("isbn") Long isbn);
+    
+    
+    @Query("select l from Libro l where l.anio = :anio")
+    List<Libro> findByQuery(@Param("anio") Integer anio);
+    
+    
 }
