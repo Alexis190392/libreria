@@ -2,7 +2,9 @@ package com.libreria.libreria.controllers;
 
 import com.libreria.libreria.entidades.Autor;
 import com.libreria.libreria.entidades.Editorial;
+import com.libreria.libreria.entidades.Libro;
 import com.libreria.libreria.services.LibroServicio;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +36,25 @@ public class LibroController {
         return "administrarLibros";
     }
     
-    @GetMapping("/form")
-    public String crearLibro(){
+    @GetMapping("/")
+    public String crearLibro(Model model, @RequestParam(required= false) Long isbn){
+        if(isbn != null){
+            Optional<Libro> op = ls.findByIsbn(isbn);
+            if(op.isPresent()){
+                model.addAttribute("libro", op.get());
+            } else{
+                return "redirect:/libro/list";
+            }
+        } else{
+            model.addAttribute("autor",new Libro());
+        }
         return "crearLibro";
     }
+    
+//    @GetMapping("/form")
+//    public String crearLibro(){
+//        return "crearLibro";
+//    }
     
     @PostMapping("/save")
     public String guardarLibro(@RequestParam Long isbn, @RequestParam String titulo,@RequestParam Integer anio,@RequestParam Integer ejemplares,@RequestParam Integer prestados,@RequestParam String autor,@RequestParam String editorial){

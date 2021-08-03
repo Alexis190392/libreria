@@ -32,13 +32,13 @@ public class LibroServicio {
         return lr.findByQuery("%"+query+"%");
     }
     
-//    public Optional<Libro> findByQuery(Long isbn){
-//        return lr.findByQuery(isbn);
-//    }
-//    
-//    public Optional<Libro> findByQuery(Integer anio){
-//        return lr.findByQuery(anio);
-//    }
+    public Optional<Libro> findByIsbn(Long isbn){
+        return lr.findById(isbn);
+    }
+    
+    public List<Libro> findByQuery(Integer anio){
+        return lr.findByQuery(anio);
+    }
     
     
     
