@@ -1,10 +1,7 @@
 package com.libreria.libreria.controllers;
 
-import com.libreria.libreria.entidades.Autor;
-import com.libreria.libreria.entidades.Editorial;
 import com.libreria.libreria.entidades.Libro;
 import com.libreria.libreria.services.LibroServicio;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +20,11 @@ public class LibroController {
     private LibroServicio ls;
     
     @GetMapping("/form")
-    public String crearLibro(Model model, @RequestParam(required= false) Long isbn){
+    public String crearLibro(Model model, @RequestParam(required= false) String isbn){
         if(isbn != null){
-            Optional<Libro> op = ls.findByIsbn(isbn);
-            if(op.isPresent()){
-                model.addAttribute("libro", op.get());
+            Libro l = ls.findById(Long.parseLong(isbn));
+            if(l != null){
+                model.addAttribute("libro", l);
             } else{
                 return "redirect:/libro/list";
             }
@@ -36,12 +33,6 @@ public class LibroController {
         }
         return "crearLibro";
     }
-    
-//    @GetMapping("/list")
-//    public String listarLibros(Model model){
-//        model.addAttribute("libros", ls.listAll());
-//        return "administrarLibros";
-//    }
     
     @GetMapping("/list")
     public String listarLibros(Model model, @RequestParam(required= false) String query){
@@ -52,19 +43,6 @@ public class LibroController {
         }
         return "administrarLibros";
     }
-    
-    
-    
-//    @GetMapping("/form")
-//    public String crearLibro(){
-//        return "crearLibro";
-//    }
-    
-//    @PostMapping("/save")
-//    public String guardarLibro(@RequestParam Long isbn, @RequestParam String titulo,@RequestParam Integer anio,@RequestParam Integer ejemplares,@RequestParam Integer prestados,@RequestParam String autor,@RequestParam String editorial){
-//        ls.save(isbn,titulo,anio,ejemplares,prestados,autor,editorial);
-//        return "redirect:/libro/list"; 
-//    }
     
     @PostMapping("/save")
     public String guardarLibro(RedirectAttributes redat, @ModelAttribute Libro libro){

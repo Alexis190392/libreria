@@ -44,38 +44,27 @@ public class LibroServicio {
         return lr.findAll(); 
     }
     
-    
     //buscador general de libros en la db
     public List<Libro> findByQuery(String query){
-        return lr.findByQuery("%"+query+"%");
+        
+        Long isbn;
+        try{
+            isbn = Long.parseLong(query);   
+        } catch (Exception e){
+            isbn= null;
+        }
+        return lr.findByQuery("%"+query+"%", isbn);
     }
     
-    public Optional<Libro> findByIsbn(Long isbn){
-        return lr.findById(isbn);
+    
+    public Libro findById(Long isbn){
+        Libro libro= null;
+        Optional<Libro> op = lr.findById(isbn);
+        if(op.isPresent()){
+            libro = op.get();
+        }
+        return libro;
     }
-    
-//    public List<Libro> findByQuery(Integer anio){
-//        return lr.findByQuery(anio);
-//    }
-    
-    
-    
-    
-
-    
-    //  Anterior
-//    public String delete(Libro libro){
-//        
-//        if(lr.findById(libro.getIsbn().toString()).isPresent()){
-//            lr.delete(libro);
-//            return "Libro Eliminado";
-//        } else{
-//            return "Libro no existe";
-//        }
-//    }
-    
-    
-    //ahora el delete
     
     public void delete (Libro libro){
         lr.delete(libro);
@@ -87,4 +76,5 @@ public class LibroServicio {
             lr.delete(op.get()); //nos trae como objeto para eliminarlo
         }
     }
+
 }

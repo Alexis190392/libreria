@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LibroRepository extends JpaRepository<Libro,String>{
+public interface LibroRepository extends JpaRepository<Libro,Long>{
     
     
     //creo la query de busqueda de libro
@@ -17,21 +17,8 @@ public interface LibroRepository extends JpaRepository<Libro,String>{
             + "l.titulo LIKE :query or "
             + "l.anio LIKE :query or "
             + "l.autor LIKE :query or "
-            + "l.editorial LIKE :query")
-    List<Libro> findByQuery(@Param("query") String query);
-    
-    
-//    @Query("select l from Libro l where l.isbn = :isbn")
-//    List<Libro> findByIsbn(@Param("isbn") Long isbn);
-//    
-//    
-//    @Query("select l from Libro l where l.anio = :anio")
-//    List<Libro> findByQuery(@Param("anio") Integer anio);
+            + "l.editorial LIKE :query or "
+            + "l.isbn = :queryIsbn")
+    List<Libro> findByQuery(@Param("query") String query, @Param("queryIsbn") Long queryIsbn);
 
-    
-    ////////////////////modifico a optional para buscar y traer solo ese resultado/////////////////////////////////
-    @Query("select l from Libro l where l.isbn = :isbn")
-    Optional<Libro> findById(@Param("isbn") Long isbn);
-    
-    
 }
