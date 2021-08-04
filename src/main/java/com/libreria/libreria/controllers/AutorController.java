@@ -19,20 +19,6 @@ public class AutorController {
     @Autowired
     private AutorServicio as;
     
-    /* antes:
-    
-    
-    @GetMapping("/list")
-    public String listarAutores(Model model){
-        model.addAttribute("autores", as.listAll());
-        return "administrarAutores";
-    }
-    
-    
-    despues: para consultar mediante jpql
-    con query en el repository
-    */
-    
     @GetMapping("/list")
     public String listarAutores(Model model, @RequestParam(required=false) String query){
         if(query != null){
@@ -42,23 +28,6 @@ public class AutorController {
         }
         return "administrarAutores";
     }
-    
-    /*
-    elimino esta parte para usar con el anterior con query como buscador general
-    @GetMapping("/list")
-    public String buscarAutores(Model model){
-        model.addAttribute("autores", as.searchName(nombre));
-        return "administrarAutores";
-    }
-    */
-    
-    /*
-    @GetMapping("/form")
-    public String crearAutor(){
-        return "crearAutor";
-    }
-    */
-    
     
     @GetMapping("/form")
     public String crearAutor(Model model,@RequestParam(required=false) String id){
@@ -74,13 +43,6 @@ public class AutorController {
         }
         return "crearAutor";
     }
-    
-    /*
-    @PostMapping("/save")
-    public String guardarAutor(@RequestParam String nombre){
-        as.save(nombre);
-        return "redirect:/autor/list"; 
-    }*/
     
     
     @PostMapping("/save")

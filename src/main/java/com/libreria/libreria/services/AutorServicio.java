@@ -15,13 +15,6 @@ public class AutorServicio {
     @Autowired
     private AutorRepository ar;
     
-                    /*   Guardar     */
-    
-    /*public Autor save(Autor autor){
-        return ar.save(autor);
-    }
-    
-    */
     @Transactional
     public Autor save(Autor a) throws WebException{
         if(a.getNombre().isEmpty() || a.getNombre() == null){
@@ -52,38 +45,6 @@ public class AutorServicio {
     public Optional<Autor> searchId(String id){
         return ar.findById(id);
     }
-    
-    /*
-    //buscar uno por nombre 
-    
-    public Autor searchName(String nombre) throws Exception{
-        try{
-            for (Autor a : listAll()) {         //busca en el listado de personas uno a uno
-                if(a.getNombre().toLowerCase().contains(nombre.toLowerCase())){ //compara cada caso con el nombre del objeto en esa iteracion
-                    return a;
-                } else if(searchId(nombre)!= null){  //sino, busca en id, si no lo encuentra, va al siguiente ciclo del each
-                    return searchId(nombre);
-                }
-            }
-        } catch (Exception e){
-            throw new Exception("no se encuentra autor");
-        } 
-        return null; //si no encuentra coincidencias, no retorna nada
-    }
-    
-    
-    
-    
-    //buscar uno por id
-    public Autor searchId(String id) throws Exception{
-        try{
-            return ar.getById(id);
-        }catch (Exception e){
-            throw new Exception("no se encuentra autor");
-        } 
-    }
-
-*/
     
     /*   ELIMINAR     */
     
