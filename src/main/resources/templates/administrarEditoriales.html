@@ -9,7 +9,10 @@
     
     <!--Busqueda-->
     <div class="m-4">
+    <div class="row">
+      <a class="btn btn-outline-dark mb-2" th:href="@{/}">INICIO</a>
       <a class="btn btn-outline-dark mb-2" th:href="@{/editorial/form}">CREAR EDITORIAL</a>
+    </div>
       <form class="d-flex" th:action="@{/editorial/list}" method="GET">
         <input class="form-control me-2" type="search" placeholder="Buscar" name="query" aria-label="Search">
         <button class="btn btn-outline-info" type="submit">Buscar</button>

@@ -8,7 +8,10 @@
     </div>
 
     <div class="m-4">
-      <a class="btn btn-outline-dark mb-2" th:href="@{/cliente/form}">CREAR CLIENTES</a>
+      <div class="row">
+        <a class="btn btn-outline-dark mb-2" th:href="@{/}">INICIO</a>
+        <a class="btn btn-outline-dark mb-2" th:href="@{/cliente/form}">CREAR CLIENTES</a>
+      </div>
       <form class="d-flex" th:action="@{/cliente/list}" method="GET">
         <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" name="query">
         <button class="btn btn-outline-info" type="submit">Buscar</button>

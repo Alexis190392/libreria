@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-end">
         <p class="display-3">CREAR AUTOR</p>
     </div>
-
+    
     <a type="submit" class="btn btn-outline-dark" th:href="@{/autor/list}">Volver</a>
 
       <form th:action="@{/autor/save}" method="POST" th:object="${autor}"> <!--objeto como lo es-->

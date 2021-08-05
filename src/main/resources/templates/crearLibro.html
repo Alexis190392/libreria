@@ -27,8 +27,6 @@
                 <input type="text" class="form-control" th:field="*{autor}">
               </div>
               --> 
-
-              
               <div class="form-label">
                 <label for="">Autor</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="autor" th:field="*{autor.id}">
@@ -36,21 +34,16 @@
                   <option th:each="a : ${autores}" th:text="${a.nombre}" th:value="${a.id}"></option>
                 </select>
               </div>
-
-
               <div class="form-label">
                 <label for="">Año</label>
                 <input type="number" class="form-control" th:field="*{anio}">
               </div>
-             
              <!--
               <div class="form-label">
                 <label for="">Editorial</label>
                 <input type="text" class="form-control" th:field="*{editorial}">
               </div>
               -->
-
-
               <div class="form-label">
                 <label for="">Editorial</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="editorial" th:field="*{editorial.id}">
