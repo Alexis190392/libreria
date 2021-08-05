@@ -21,18 +21,45 @@
                 <label for="">Titulo</label>
                 <input type="text" class="form-control" th:field="*{titulo}">
               </div>
+              <!--
               <div class="form-label">
                 <label for="">Autor</label>
                 <input type="text" class="form-control" th:field="*{autor}">
               </div>
+              --> 
+
+              
+              <div class="form-label">
+                <label for="">Autor</label>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="autor" th:field="*{autor.id}">
+                  <option selected th:value="${null}">Elija autor</option>
+                  <option th:each="a : ${autores}" th:text="${a.nombre}" th:value="${a.id}"></option>
+                </select>
+              </div>
+
+
               <div class="form-label">
                 <label for="">Año</label>
                 <input type="number" class="form-control" th:field="*{anio}">
               </div>
+             
+             <!--
               <div class="form-label">
                 <label for="">Editorial</label>
                 <input type="text" class="form-control" th:field="*{editorial}">
               </div>
+              -->
+
+
+              <div class="form-label">
+                <label for="">Editorial</label>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="editorial" th:field="*{editorial.id}">
+                  <option selected th:value="${null}">Elija Editorial</option>
+                  <option th:each="e : ${editoriales}" th:text="${e.nombre}" th:value="${e.id}"></option>
+                </select>
+              </div>
+
+
             </div>
             <div class="col-lg-6">
               <div class="form-label">

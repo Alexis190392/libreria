@@ -1,6 +1,8 @@
 package com.libreria.libreria.controllers;
 
 import com.libreria.libreria.entidades.Libro;
+import com.libreria.libreria.services.AutorServicio;
+import com.libreria.libreria.services.EditorialServicio;
 import com.libreria.libreria.services.LibroServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,21 @@ public class LibroController {
     
     @Autowired
     private LibroServicio ls;
+    @Autowired
+    private AutorServicio as;
+    @Autowired
+    private EditorialServicio es;
+    
+    
+    @GetMapping("/list")
+    public String listarLibros(Model model, @RequestParam(required= false) String query){
+        if(query != null){
+            model.addAttribute("libros", ls.findByQuery(query));
+        } else {
+            model.addAttribute("libros", ls.listAll());
+        }
+        return "administrarLibros";
+    }
     
     @GetMapping("/form")
     public String crearLibro(Model model, @RequestParam(required= false) String isbn){
@@ -31,23 +48,16 @@ public class LibroController {
         } else{
             model.addAttribute("libro",new Libro());
         }
+        model.addAttribute("autores", as.listAll());
+        model.addAttribute("editoriales", es.listAll());
         return "crearLibro";
-    }
-    
-    @GetMapping("/list")
-    public String listarLibros(Model model, @RequestParam(required= false) String query){
-        if(query != null){
-            model.addAttribute("libros", ls.findByQuery(query));
-        } else {
-            model.addAttribute("libros", ls.listAll());
-        }
-        return "administrarLibros";
     }
     
     @PostMapping("/save")
     public String guardarLibro(RedirectAttributes redat, @ModelAttribute Libro libro){
         try {
             ls.save(libro);
+            redat.addFlashAttribute("success","Libro guardado correctamente");
         } catch (Exception e) {
             redat.addFlashAttribute("error", e.getMessage()); //mandando el mensaje de error a donde es redireccionado
         }

@@ -32,16 +32,12 @@
           <tr th:each="l : ${libros}">
             <td th:text="${l.isbn}"></td>
             <td th:text="${l.titulo}"></td>
-            <td th:text="${l.autor}"></td>
+            <td th:text="${l.autor} == null ? 'Sin Autor' : ${l.autor.nombre}"></td>
             <td th:text="${l.anio}"></td>
-            <td th:text="${l.editorial}"></td>
+            <td th:text="${l.editorial} == null ? 'Sin Editorial' : ${l.editorial.nombre}"></td>
             <td th:text="${l.ejemplares}"></td>
             <td th:text="${l.prestados}"></td>
             <td>
-              <!--
-              <button type="button" class="btn btn-outline-success">Editar</button>
-              <button type="button" class="btn btn-outline-danger">Eliminar</button>
-                -->
 
               <a type="button" class="btn btn-outline-success" th:href="@{/libro/form} + '?isbn=' + ${l.isbn}">Editar</a>
               <a type="button" class="btn btn-outline-danger" th:href="@{/libro/delete} + '?isbn=' + ${l.isbn}">Eliminar</a>

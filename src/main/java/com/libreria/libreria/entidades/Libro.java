@@ -13,29 +13,10 @@ public class Libro {
     private Integer anio;
     private Integer ejemplares;
     private Integer prestados;
-    
-    private String autor;
-    private String editorial;
-    
-    /* @ManyToOne
+    @ManyToOne
     private Autor autor;
     @ManyToOne
-    private Editorial editorial; */
-
-    public Libro() {
-    }
-
-    public Libro(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer prestados, String autor, String editorial) {
-        this.isbn = isbn;
-        this.titulo = titulo;
-        this.anio = anio;
-        this.ejemplares = ejemplares;
-        this.prestados = prestados;
-        this.autor = autor;
-        this.editorial = editorial;
-    }
-
-    
+    private Editorial editorial;
 
     public Long getIsbn() {
         return isbn;
@@ -77,21 +58,22 @@ public class Libro {
         this.prestados = prestados;
     }
 
-    public String getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
-    public String getEditorial() {
+    public Editorial getEditorial() {
         return editorial;
     }
 
-    public void setEditorial(String editorial) {
+    public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
     }
+
     
     
 }
