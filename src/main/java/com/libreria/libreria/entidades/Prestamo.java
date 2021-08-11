@@ -30,6 +30,7 @@ public class Prestamo {
     private Cliente cliente;
 
     public Prestamo() {
+        this.multa = 0d;
     }
 
     public Prestamo(String id, Date fecha, Date devolucion, Double multa, Libro libro, Cliente cliente) {
@@ -40,8 +41,6 @@ public class Prestamo {
         this.libro = libro;
         this.cliente = cliente;
     }
-
-    
 
     public String getId() {
         return id;
