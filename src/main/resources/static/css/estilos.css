@@ -5,3 +5,25 @@ a{
 .back{
     background-image: url("../img/background.jpg");
 }
+
+.container{
+    border: 2px solid rgba(0, 0, 0, 0.377);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 6px;
+    background-color:rgba(255, 255, 255, 0.609);
+}
+
+.buscador{
+    margin-top: 10px;
+}
+
+/*
+.prueba{
+    
+    background-image: linear-gradient(180deg, #ff7fbc 0, #ff76c2 10%, #f96dc7 20%, #e964cd 30%, #d65cd3 40%, #be55d8 50%, #a250dd 60%, #804fe3 70%, #5050e8 80%, #0051ec 90%, #0054ef 100%);
+}
+.prueba2{
+    background-image: url("../img/bg\(20210810_215757\).png");
+}
+*/
