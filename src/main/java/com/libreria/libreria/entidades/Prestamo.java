@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Prestamo {
@@ -19,7 +20,8 @@ public class Prestamo {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date devolucion;
     
     private Double multa;

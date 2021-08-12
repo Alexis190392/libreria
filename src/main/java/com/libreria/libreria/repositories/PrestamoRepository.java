@@ -19,4 +19,10 @@ public interface PrestamoRepository extends JpaRepository<Prestamo,String>{
     @Query("select p from Prestamo p where p.id like :query or p.libro.titulo like :query or p.cliente.documento = :queryDoc")
     List<Prestamo> findAll(@Param("query") String query, @Param("queryDoc") Long queryDoc);
     
+    @Query("select p from Prestamo p where p.cliente.documento = : dni")
+    List<Prestamo> findByDni(@Param("dni") Long dni);
+    
+    @Query("select p from Prestamo p where p.libro.titulo like :titulo")
+    List<Prestamo> findByLibro(@Param("titulo") String titulo);
+    
 }
