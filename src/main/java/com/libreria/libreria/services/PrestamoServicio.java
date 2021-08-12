@@ -28,7 +28,7 @@ public class PrestamoServicio {
             throw new WebException("El campo cliente no puede estar vacio");
         }
         if(p.getDevolucion().before(new Date())){
-            throw new WebException("El la fecha no puede ser anterior al dia de hoy");
+            throw new WebException("La fecha no puede ser anterior al dia de hoy");
         }
         return pr.save(p);
     }
