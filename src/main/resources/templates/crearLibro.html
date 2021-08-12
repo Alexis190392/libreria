@@ -13,14 +13,17 @@
         <form th:action="@{/libro/save}" method="POST" th:object="${libro}">
           <div class="row m-5">
             <div class="col-lg-6">
+              
               <div class="form-label">
                 <label for="">ISBN</label>
                 <input type="number" class="form-control" th:field="*{isbn}">
               </div>
+              
               <div class="form-label">
                 <label for="">Titulo</label>
                 <input type="text" class="form-control" th:field="*{titulo}">
               </div>
+              
               <!--
               <div class="form-label">
                 <label for="">Autor</label>
@@ -34,6 +37,7 @@
                   <option th:each="a : ${autores}" th:text="${a.nombre}" th:value="${a.id}"></option>
                 </select>
               </div>
+              
               <div class="form-label">
                 <label for="">Año</label>
                 <input type="number" class="form-control" th:field="*{anio}">
