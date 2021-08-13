@@ -16,7 +16,7 @@
               <input hidden th:field="*{id}"> <!--agrego el id oculto(hidden) para que lo haga automatico-->
               
               <div class="form-label">
-                <label for="">cliente</label>
+                <label for="">Cliente</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="cliente" th:field="*{cliente.nombre}">
                   <option selected th:value="${null}">Elija cliente</option>
                   <option th:each="c : ${clientes}" th:text="${c.nombre}" th:value="${c.documento}"></option>
@@ -25,7 +25,7 @@
               
             
               <div class="form-label">
-                <label for="">libro</label>
+                <label for="">Libro</label>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="libro" th:field="*{libro.isbn}">
                   <option selected th:value="${null}">Elija libro</option>
                   <option th:each="l : ${libros}" th:text="${l.titulo}" th:value="${l.isbn}"></option>
