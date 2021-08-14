@@ -16,11 +16,6 @@ public class LibroServicio {
     
     @Autowired
     private LibroRepository lr;
-    @Autowired
-    private AutorServicio as;
-    @Autowired
-    private EditorialServicio es;
-    
     
     
     //guardar

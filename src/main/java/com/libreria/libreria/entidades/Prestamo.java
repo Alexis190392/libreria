@@ -4,6 +4,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -11,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Prestamo {
     
     @Id
@@ -33,6 +36,7 @@ public class Prestamo {
 
     public Prestamo() {
         this.multa = 0d;
+        this.fecha = new Date();
     }
 
     public Prestamo(String id, Date fecha, Date devolucion, Double multa, Libro libro, Cliente cliente) {
@@ -91,5 +95,5 @@ public class Prestamo {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
+
 }

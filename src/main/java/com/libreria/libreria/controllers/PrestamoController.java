@@ -32,13 +32,10 @@ public class PrestamoController {
 
     // formulario para crear prestamo
     @GetMapping("/form")
-    public String crearPrestamo(Model model, @RequestParam(required = false) String id
-    /* @RequestParam String libro, 
-            @RequestParam Long dni, 
-            @RequestParam Date devolucion */) {
+    public String crearPrestamo(Model model, @RequestParam(required = false) String id) {
 
         if (id != null) {
-            Optional< Prestamo> op = ps.findById(id);
+            Optional<Prestamo> op = ps.findById(id);
 
             if (op.isPresent()) {
                 model.addAttribute("prestamo", op.get());
@@ -77,5 +74,13 @@ public class PrestamoController {
         }
         return "administrarPrestamo";
     }
-
+    
+    
+    //crear un prestamo
+    @PostMapping("/prestar")
+    public String prestar(Model model){
+  
+        
+        return "realizarPrestamo";
+    }
 }

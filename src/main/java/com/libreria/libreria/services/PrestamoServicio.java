@@ -30,6 +30,7 @@ public class PrestamoServicio {
         if(p.getDevolucion().before(new Date())){
             throw new WebException("La fecha no puede ser anterior al dia de hoy");
         }
+        System.err.println(p.toString());
         return pr.save(p);
     }
     
@@ -41,9 +42,14 @@ public class PrestamoServicio {
         p.setLibro(libro);
         p.setCliente(cliente);
         //operaciones sobre el libro
-        p.getLibro().setEjemplares(p.getLibro().getEjemplares() - 1);
-        p.getLibro().setPrestados(p.getLibro().getPrestados() + 1);
+        Libro l = libro;
+        l.setEjemplares(p.getLibro().getEjemplares() - 1);
+        l.setPrestados(p.getLibro().getPrestados() + 1);
         
+        p.setLibro(l);
+        /*
+        cambio lineas anteriores para setear modificaciones en el libro respecto a los ejemplares diponibles y prestados
+        */
         return pr.save(p);
     }
   
@@ -72,14 +78,7 @@ public class PrestamoServicio {
     }
     
     public Optional<Prestamo> findById(String id){
-        /*Prestamo prestamo= null;
-        Optional<Prestamo> op = pr.findById(id);
-        if(op.isPresent()){
-            prestamo = op.get();
-        }
-        return prestamo;*/
         return pr.findById(id);
-        
     }
             
 
