@@ -17,12 +17,12 @@
               
               <div class="form-label">
                 <label for="">Cliente</label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="cliente" th:field="*{cliente.nombre}">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" for="cliente" th:field="*{cliente.documento}">
                   <option selected th:value="${null}">Elija cliente</option>
                   <option th:each="c : ${clientes}" th:text="${c.nombre}" th:value="${c.documento}"></option>
                 </select>
               </div>
-              
+
             
               <div class="form-label">
                 <label for="">Libro</label>
