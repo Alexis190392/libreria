@@ -18,8 +18,6 @@
         <a class="btn btn-outline-dark mb-2" th:href="@{/prestamo/form}">CREAR PRESTAMO</a>
       </div>
     </div>
-    <!--Listado prestamo -->
-    <!--<div class="container">-->
       <form class="d-flex buscador" th:action="@{/prestamo/list}" method="GET">
         <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" name="query">
         <button class="btn btn-outline-info" type="submit">Buscar</button>
@@ -32,6 +30,9 @@
             <th scope="col">ID</th>
             <th scope="col">Libro</th>
             <th scope="col">Cliente</th>
+            <th scope="col">Fecha prestamo</th>
+            <th scope="col">Fecha devolucion</th>
+
             <th scope="col" class="text-center">Opciones</th>
           </tr>
         </thead>
@@ -40,17 +41,17 @@
             <td th:text="${p.id}"></td>
             <td th:text="${p.libro.titulo}"></td>
             <td th:text="${p.cliente.documento} + ' ' + ${p.cliente.nombre}"></td>
+            <td th:text="${p.fecha}"></td>
+            <td th:text="${p.devolucion}"></td>
+
             <td class="d-flex justify-content-end ">
               <a type="button" class="btn btn-outline-primary m-1" >Renovar Prestamo</a>
-              <a type="button" class="btn btn-outline-success m-1" >Devolver Libro</a>
+              <a type="button" class="btn btn-outline-success m-1" th:href="@{/prestamo/devolucion} + '?id=' + ${p.id}" >Devolver Libro</a>
               <a type="button" class="btn btn-outline-danger m-1" >Eliminar Prestamo</a>
+            </td>
           </tr>
         </tbody>
       </table>
-    <!--</div>-->
-
-
-
   </div>
 
 
