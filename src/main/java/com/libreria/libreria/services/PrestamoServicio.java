@@ -52,5 +52,25 @@ public class PrestamoServicio {
     public void delete(Prestamo p){
         pr.delete(p);
     }
+    
+    @Transactional
+    public void delete(String id){
+        pr.delete(findById(id).get());
+    }
+    
+
+    public List<Prestamo> findByQuery(String query) {
+        Long doc;
+        try{
+            doc = Long.parseLong(query);   
+        } catch (Exception e){
+            doc= null;
+        }
+        return pr.findAll("%"+query+"%", doc);
+    }
+    
+    public Optional<Prestamo> findById(String id){
+        return pr.findById(id);
+    }
    
 }

@@ -27,7 +27,50 @@ public class PrestamoController {
     @Autowired
     private LibroServicio ls;
     
+    @GetMapping("/list")
+    public String listar(Model model, @RequestParam(required=false) String query){
+        if(query != null){
+            model.addAttribute("prestamos", ps.findByQuery(query));
+        } else{
+            model.addAttribute("prestamos", ps.listAll());
+        }
+        return "administrarPrestamo"; 
+    }
+    
+    @GetMapping("/form")
+    public String crearPrestamo(Model model, @RequestParam(required=false) String id){
+        if(id != null){
+            Optional<Prestamo> p = ps.findById(id);
+            if(p.isPresent()){
+                model.addAttribute("prestamo", p);
+            } else {
+                return "redirect:/prestamo/list";
+            }
+        } else{
+            model.addAttribute("prestamo", new Prestamo());
+        }
+        model.addAttribute("clientes", cs.listAll());
+        model.addAttribute("libros", ls.listAll());
+        
+        return "crearPrestamo";
+    }
     
     
+    @PostMapping("/save")
+    public String hacerPrestamo(RedirectAttributes redat, @ModelAttribute Prestamo p){
+        try{
+            ps.save(p);
+            redat.addFlashAttribute("succes", "Prestamo creado con exito.");
+        } catch(Exception e){
+            redat.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/prestamo/list";
+    }
+    
+    @GetMapping("/delete")
+    public String eliminarPrestamo(@RequestParam(required=true) String id){
+        ps.delete(id);
+        return "redirect:/prestamo/list";
+    }
 
 }
