@@ -61,7 +61,7 @@ public class PrestamoController {
         try{
             ps.save(p);
             redat.addFlashAttribute("success", "Prestamo creado con exito.");
-        } catch(Exception e){
+        } catch(WebException e){
             redat.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/prestamo/list";

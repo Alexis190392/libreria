@@ -86,6 +86,8 @@ public class PrestamoServicio {
     
     
     /*              ELIMINAR             */
+    
+    
     @Transactional
     public void delete(Prestamo p){
         pr.delete(p);
@@ -97,15 +99,18 @@ public class PrestamoServicio {
     }
     
     
+    
     /*              COMPROBAR LIBRO DISPONIBLE             */
     
     public Boolean disponibilidad(Libro libro){
         return libro.getEjemplares() > 0;
     }
     
+    
+    
     /*              RENOVAR             */
     
-    public Prestamo renovar(Prestamo prestamo, Date nuevaDevolucion){
+    public void renovar(Prestamo prestamo, Date nuevaDevolucion) throws WebException{
         
         if (prestamo.getDevolucion().before(new Date()) || prestamo.getDevolucion().equals(new Date())) {
             prestamo.setDevolucion(nuevaDevolucion);
@@ -114,22 +119,26 @@ public class PrestamoServicio {
             prestamo.setMulta(prestamo.getMulta() + multa(prestamo.getDevolucion()));
         }
         prestamo.setLibro(actualizarCantidad(prestamo.getLibro(), false));
-        return prestamo;
+        
+        save(prestamo);
     }
     
-        /*              DEVOLVER             */
+    
+    /*              DEVOLVER             */
     public Prestamo devolver(Prestamo prestamo){
         if(prestamo.getDevolucion().after(new Date())){                 
             prestamo.setMulta((multa(prestamo.getDevolucion())));
         }
         
         prestamo.setDevolucion(new Date());
-        
+        //actualizo cantidad en libro
+        prestamo.setLibro(actualizarCantidad(prestamo.getLibro(), false));
         return prestamo;
     }
     
     
-      /*              MULTA             */
+    
+    /*              MULTA             */
         
     public Double multa(Date fechaDevolucion){
         Date hoy= new Date();
@@ -138,8 +147,7 @@ public class PrestamoServicio {
     
     
     
-    /*         UTILIDADES      */
-    
+    /*         UTILIDADES           */
     
     public Libro actualizarCantidad(Libro libro, Boolean estado){
         //true: prestar ---- false: devolver
@@ -155,14 +163,11 @@ public class PrestamoServicio {
     }
     
     
-    public Double diasAtrasados(Date fechaDesde, Date fechaHasta){
-        long startTime = fechaDesde.getTime() ;
-        long endTime = fechaHasta.getTime();
-        long diasDesde = (long) Math.floor(startTime / (1000*60*60*24)); // convertimos a dias, para que no afecten cambios de hora 
-        long diasHasta = (long) Math.floor(endTime / (1000*60*60*24)); // convertimos a dias, para que no afecten cambios de hora
-        long dias = diasHasta - diasDesde;
-
-     return ((double) dias);
-}
+    public Double diasAtrasados(Date desde, Date hasta){
+        // convertimos a dias, para que no afecten cambios de hora
+        long diasDesde = (long) Math.floor(desde.getTime() / (1000*60*60*24));
+        long diasHasta = (long) Math.floor(hasta.getTime() / (1000*60*60*24));
+        return ((double) (diasHasta - diasDesde));
+    }
     
 }

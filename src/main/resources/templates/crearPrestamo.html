@@ -10,7 +10,7 @@
     
     <a type="submit" class="btn btn-outline-dark" th:href="@{/prestamo/list}">Volver</a>
 
-        <form th:action="@{/prestamo/registrar}" method="POST" th:object="${prestamo}">
+        <form th:action="@{/prestamo/save}" method="POST" th:object="${prestamo}">
           <div class="row m-5">
             <div class="col-lg-6">
               <input hidden th:field="*{id}"> <!--agrego el id oculto(hidden) para que lo haga automatico-->
