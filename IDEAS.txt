@@ -3,6 +3,7 @@
 
 <LUCÍA>
 Boton para modificar el valor de la Multa
+Buscar cuanto debe el cliente en total de prestamos
 
 
 <ALEXIS>
