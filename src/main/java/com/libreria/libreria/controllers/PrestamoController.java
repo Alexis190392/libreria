@@ -5,6 +5,7 @@ import com.libreria.libreria.excepciones.WebException;
 import com.libreria.libreria.services.ClienteServicio;
 import com.libreria.libreria.services.LibroServicio;
 import com.libreria.libreria.services.PrestamoServicio;
+import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,6 +72,28 @@ public class PrestamoController {
     public String eliminarPrestamo(@RequestParam(required=true) String id){
         ps.delete(id);
         return "redirect:/prestamo/list";
+    }
+    
+    @GetMapping("/renovar")
+    public String renovar(@RequestParam(required=true) String id, @ModelAttribute Date devolucion, Model model) throws WebException{
+        if(id!=null){
+            Optional<Prestamo> p = ps.findById(id);
+            if(p.isPresent()){
+                model.addAttribute("prestamo", p);
+                model.addAttribute("nombre", p.get().getCliente().getNombre());
+                model.addAttribute("apellido", p.get().getCliente().getApellido());
+                model.addAttribute("titulo", p.get().getLibro().getTitulo());
+                ps.renovar(ps.findById(id).get(), devolucion);
+            } else {
+                return "redirect:/prestamo/list";
+            }
+        } else{
+            model.addAttribute("prestamo", new Prestamo());
+        }
+        
+        
+        
+        return "renovarPrestamo";
     }
 
 }

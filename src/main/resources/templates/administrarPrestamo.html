@@ -26,7 +26,7 @@
 
       <table class="table table-hover">
         <thead>
-          <tr>
+          <tr class="justify-content-center">
             <th scope="col">ID</th>
             <th scope="col">Libro</th>
             <th scope="col">Cliente</th>
@@ -45,9 +45,9 @@
             <td th:text="${p.devolucion}"></td>
 
             <td class="d-flex justify-content-end ">
-              <a type="button" class="btn btn-outline-primary m-1" >Renovar Prestamo</a>
-              <a type="button" class="btn btn-outline-success m-1" th:href="@{/prestamo/devolucion} + '?id=' + ${p.id}" >Devolver Libro</a>
-              <a type="button" class="btn btn-outline-danger m-1" >Eliminar Prestamo</a>
+              <a type="button" class="btn btn-outline-primary m-1" th:href="@{/prestamo/renovar} + '?id=' + ${p.id}">Renovar Prestamo</a>
+              <a type="button" class="btn btn-outline-success m-1" th:href="@{/prestamo/form} + '?id=' + ${p.id}" >Devolver Libro</a>
+              <a type="button" class="btn btn-outline-danger m-1" th:href="@{/prestamo/delete} + '?id=' + ${p.id}" >Eliminar Prestamo</a>
             </td>
           </tr>
         </tbody>
