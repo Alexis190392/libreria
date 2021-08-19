@@ -60,7 +60,7 @@ public class PrestamoController {
     public String hacerPrestamo(RedirectAttributes redat, @ModelAttribute Prestamo p){
         try{
             ps.save(p);
-            redat.addFlashAttribute("succes", "Prestamo creado con exito.");
+            redat.addFlashAttribute("success", "Prestamo creado con exito.");
         } catch(Exception e){
             redat.addFlashAttribute("error", e.getMessage());
         }

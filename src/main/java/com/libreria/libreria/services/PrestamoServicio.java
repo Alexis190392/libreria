@@ -12,11 +12,28 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/*
+    -> Guardar  -> CREAR PRESTAMO - EDITAR PRESTAMO
+        -> setear el libro con los ejemplares y prestados para saber la canTidad disponible de libros (metodo comprobar)
+    -> Listar   -> ADMINISTRAR PRESTAMO
+        -> Eliminar -> boton eliminar
+        -> Modificar-> con el metodo de guardar - boton modificar
+        -> Renovar  -> verificar fecha anterior de devolucion o aplicar multa - boton renovar
+        -> Devolver -> verificar fecha actual con la seteada anteriormente, caso de ser posterior, utilizar metodo multa
+    -> Multa    -> (metodo) calcular diferencia de fecha y multiplicar por valor de multa
+    
+*/
+
+
+
 @Service
 public class PrestamoServicio {
     
     @Autowired
     private PrestamoRepository pr;
+    
+    /*              GUARDAR Y MODIFICAR              */
+    
     
     @Transactional
     public Prestamo save(Prestamo p) throws WebException{
@@ -37,28 +54,22 @@ public class PrestamoServicio {
     public Prestamo save(Cliente cliente, Libro libro, Date fecha){
         Prestamo p = new Prestamo();
         p.setCliente(cliente);
-        p.setLibro(libro);
         p.setFecha(new Date());
         p.setDevolucion(fecha);
+        p.setLibro(actualizarCantidad(libro, true));
 
         return pr.save(p);
     }
+    
+    
+    
+    /*              LISTAR Y BUSQUEDA             */
+    
     
     public List<Prestamo> listAll(){
         return pr.findAll();
     }
     
-    @Transactional
-    public void delete(Prestamo p){
-        pr.delete(p);
-    }
-    
-    @Transactional
-    public void delete(String id){
-        pr.delete(findById(id).get());
-    }
-    
-
     public List<Prestamo> findByQuery(String query) {
         Long doc;
         try{
@@ -72,5 +83,86 @@ public class PrestamoServicio {
     public Optional<Prestamo> findById(String id){
         return pr.findById(id);
     }
-   
+    
+    
+    /*              ELIMINAR             */
+    @Transactional
+    public void delete(Prestamo p){
+        pr.delete(p);
+    }
+    
+    @Transactional
+    public void delete(String id){
+        pr.delete(findById(id).get());
+    }
+    
+    
+    /*              COMPROBAR LIBRO DISPONIBLE             */
+    
+    public Boolean disponibilidad(Libro libro){
+        return libro.getEjemplares() > 0;
+    }
+    
+    /*              RENOVAR             */
+    
+    public Prestamo renovar(Prestamo prestamo, Date nuevaDevolucion){
+        
+        if (prestamo.getDevolucion().before(new Date()) || prestamo.getDevolucion().equals(new Date())) {
+            prestamo.setDevolucion(nuevaDevolucion);
+            ;
+        } else {
+            prestamo.setMulta(prestamo.getMulta() + multa(prestamo.getDevolucion()));
+        }
+        prestamo.setLibro(actualizarCantidad(prestamo.getLibro(), false));
+        return prestamo;
+    }
+    
+        /*              DEVOLVER             */
+    public Prestamo devolver(Prestamo prestamo){
+        if(prestamo.getDevolucion().after(new Date())){                 
+            prestamo.setMulta((multa(prestamo.getDevolucion())));
+        }
+        
+        prestamo.setDevolucion(new Date());
+        
+        return prestamo;
+    }
+    
+    
+      /*              MULTA             */
+        
+    public Double multa(Date fechaDevolucion){
+        Date hoy= new Date();
+        return diasAtrasados(fechaDevolucion, hoy) * 10;
+    }
+    
+    
+    
+    /*         UTILIDADES      */
+    
+    
+    public Libro actualizarCantidad(Libro libro, Boolean estado){
+        //true: prestar ---- false: devolver
+        if(estado){
+            libro.setEjemplares(libro.getEjemplares() -1);
+            libro.setPrestados(libro.getPrestados() +1);
+        } else{
+            libro.setEjemplares(libro.getEjemplares() +1);
+            libro.setPrestados(libro.getPrestados() -1);
+        }
+        
+        return libro;
+    }
+    
+    
+    public Double diasAtrasados(Date fechaDesde, Date fechaHasta){
+        long startTime = fechaDesde.getTime() ;
+        long endTime = fechaHasta.getTime();
+        long diasDesde = (long) Math.floor(startTime / (1000*60*60*24)); // convertimos a dias, para que no afecten cambios de hora 
+        long diasHasta = (long) Math.floor(endTime / (1000*60*60*24)); // convertimos a dias, para que no afecten cambios de hora
+        long dias = diasHasta - diasDesde;
+
+     return ((double) dias);
+}
+    
 }
