@@ -32,6 +32,8 @@ public class PrestamoServicio {
     @Autowired
     private PrestamoRepository pr;
     
+    private Double precioMulta;
+    
     /*              GUARDAR Y MODIFICAR              */
     
     
@@ -56,7 +58,7 @@ public class PrestamoServicio {
         p.setCliente(cliente);
         p.setFecha(new Date());
         p.setDevolucion(fecha);
-        p.setLibro(actualizarCantidad(libro, true));
+        p = actualizarCantidad(p, true);
 
         return pr.save(p);
     }
@@ -118,7 +120,7 @@ public class PrestamoServicio {
         } else {
             prestamo.setMulta(prestamo.getMulta() + multa(prestamo.getDevolucion()));
         }
-        prestamo.setLibro(actualizarCantidad(prestamo.getLibro(), false));
+        prestamo = actualizarCantidad(prestamo, false);
         
         save(prestamo);
     }
@@ -132,34 +134,52 @@ public class PrestamoServicio {
         
         prestamo.setDevolucion(new Date());
         //actualizo cantidad en libro
-        prestamo.setLibro(actualizarCantidad(prestamo.getLibro(), false));
-        return prestamo;
+        //prestamo.setLibro(actualizarCantidad(prestamo, false));
+        return actualizarCantidad(prestamo, false);
+         
     }
     
     
     
     /*              MULTA             */
+    
+    public void setPrecioMulta(Double nuevoPrecio){
+        if(this.precioMulta == null || this.precioMulta == 0d){
+            this.precioMulta = 1d;
+        } else{
+            this.precioMulta = nuevoPrecio;
+        }
         
-    public Double multa(Date fechaDevolucion){
+    }
+
+    public Double multa(Date fechaDevolucion) {
         Date hoy= new Date();
-        return diasAtrasados(fechaDevolucion, hoy) * 10;
+        if(this.precioMulta == null){
+            this.precioMulta = 1d;
+        } 
+        return diasAtrasados(fechaDevolucion, hoy) * precioMulta;
     }
     
     
     
     /*         UTILIDADES           */
     
-    public Libro actualizarCantidad(Libro libro, Boolean estado){
+    public Prestamo actualizarCantidad(Prestamo prestamo, Boolean estado){
         //true: prestar ---- false: devolver
-        if(estado){
-            libro.setEjemplares(libro.getEjemplares() -1);
-            libro.setPrestados(libro.getPrestados() +1);
-        } else{
-            libro.setEjemplares(libro.getEjemplares() +1);
-            libro.setPrestados(libro.getPrestados() -1);
-        }
         
-        return libro;
+        
+        
+            Libro libro = prestamo.getLibro();
+           if(estado){           
+               libro.setEjemplares(libro.getEjemplares() -1);
+               libro.setPrestados(libro.getPrestados() +1);
+           } else{
+               libro.setEjemplares(libro.getEjemplares() +1);
+               libro.setPrestados(libro.getPrestados() -1);
+           }   
+            
+        prestamo.setLibro(libro);
+        return prestamo;
     }
     
     

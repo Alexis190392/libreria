@@ -82,6 +82,7 @@ public class PrestamoController {
                 model.addAttribute("prestamo", p);
                 model.addAttribute("nombre", p.get().getCliente().getNombre());
                 model.addAttribute("apellido", p.get().getCliente().getApellido());
+                model.addAttribute("documento", p.get().getCliente().getDocumento());
                 model.addAttribute("titulo", p.get().getLibro().getTitulo());
                 ps.renovar(ps.findById(id).get(), devolucion);
             } else {
@@ -90,10 +91,18 @@ public class PrestamoController {
         } else{
             model.addAttribute("prestamo", new Prestamo());
         }
-        
-        
-        
         return "renovarPrestamo";
+    }
+    
+    @PostMapping("/saveRenovar")
+    public String saveRenovar(RedirectAttributes redat, @ModelAttribute Prestamo p){
+        try{
+            ps.renovar(p, p.getDevolucion());
+            redat.addFlashAttribute("success", "Prestamo creado con exito.");
+        } catch(WebException e){
+            redat.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/prestamo/list";
     }
 
 }

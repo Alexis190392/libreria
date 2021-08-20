@@ -10,24 +10,28 @@
     
     <a type="submit" class="btn btn-outline-dark" th:href="@{/prestamo/list}">Volver</a>
 
-
+    
     
 
 
 
-        <form th:action="@{/prestamo/renovar}" method="POST" th:object="${prestamo}">
+        <form th:action="@{/prestamo/saveRenovar}" method="POST" th:object="${prestamo}">
           <div class="row m-5">
-            <div class="col-lg-6">                
-        
+            <div class="col-lg-6">
+              
+              <!--siempre poner id para poder id-->
+              <input hidden type="text" class="form-control" th:field="*{id}">
 
 
             <div class="form-label">
                 <label for="">Cliente:</label>
-                <p th:text="${nombre} + ' ' + ${apellido}"></p>
-            </div>
+                <p th:text="${nombre} + ' ' + ${apellido} + ' DNI:' + ${documento}"></p>
+                <input hidden type="text" class="form-control" th:field="*{cliente}">
+              </div>
             <div class="form-label">
                 <label for="">Libro:</label>
                 <p th:text="${titulo}"></p>
+                <input hidden type="text" class="form-control" th:field="*{libro}">
             </div>
               
 
@@ -41,7 +45,7 @@
                 <img  src="https://www.gifsanimados.org/data/media/293/cerdo-puerco-y-cochino-imagen-animada-0183.gif"  alt="cerdo-puerco-y-cochino-imagen-animada-0183" />
               </div>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-dark p-3">Crear prestamo</button>
+                <button type="submit" class="btn btn-outline-dark p-3">Modificar prestamo</button>
               </div>
             </div>
           </div>
