@@ -22,14 +22,34 @@ public class registroController {
         return "registro";
     }
     
+//    @PostMapping("")
+//    public String registroSave(Model model, @RequestParam String usuario, @RequestParam String password, @RequestParam String password2){
+//        try{
+//            us.save(usuario, password, password2);
+//            return "redirect:/";
+//        } catch (WebException e){
+//            model.addAttribute("error", e.getMessage());
+//            return "registro";
+//        }
+//    }
+    
+    
+    
+    /*
+        Registro personas deberia pedir los datos en primera instancia, y al finalizar, crear el usuario y contraseña mediante el mismo form
+    */
+    
     @PostMapping("")
-    public String registroSave(Model model, @RequestParam String usuario, @RequestParam String password, @RequestParam String password2) throws WebException{
+    public String registroSave(Model model, @RequestParam Long documento, @RequestParam String nombre, @RequestParam String apellido, 
+                                @RequestParam String domicilio, @RequestParam String telefono, @RequestParam String cargo, 
+                                @RequestParam String usuario, @RequestParam String password, @RequestParam String password2){
         try{
-            us.save(usuario, password, password2);
+            us.save(documento, nombre, apellido, domicilio, telefono, cargo, usuario, password, password2);
             return "redirect:/";
         } catch (WebException e){
             model.addAttribute("error", e.getMessage());
             return "registro";
         }
     }
+    
 }

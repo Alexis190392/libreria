@@ -18,12 +18,7 @@ a{
     margin-top: 10px;
 }
 
-/*
-.prueba{
-    
-    background-image: linear-gradient(180deg, #ff7fbc 0, #ff76c2 10%, #f96dc7 20%, #e964cd 30%, #d65cd3 40%, #be55d8 50%, #a250dd 60%, #804fe3 70%, #5050e8 80%, #0051ec 90%, #0054ef 100%);
+.marco{
+    border: 0.5px solid gray;
+    border-radius: 5px;
 }
-.prueba2{
-    background-image: url("../img/bg\(20210810_215757\).png");
-}
-*/
