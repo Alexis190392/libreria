@@ -1,6 +1,5 @@
 package com.libreria.libreria.controllers;
 
-import com.fasterxml.jackson.core.io.NumberInput;
 import com.libreria.libreria.entidades.Prestamo;
 import com.libreria.libreria.excepciones.WebException;
 import com.libreria.libreria.services.ClienteServicio;
@@ -118,7 +117,11 @@ public class PrestamoController {
                 model.addAttribute("documento", p.get().getCliente().getDocumento());
                 model.addAttribute("titulo", p.get().getLibro().getTitulo());
                 model.addAttribute("devolucion", p.get().getDevolucion());
-                model.addAttribute("dias", ps.diasAtrasados(p.get().getDevolucion(), new Date()).intValue());
+                int dia = 0;
+                if(ps.diasAtrasados(p.get().getDevolucion(), new Date()).intValue() > 0){
+                    dia = ps.diasAtrasados(p.get().getDevolucion(), new Date()).intValue();
+                }
+                model.addAttribute("dias", dia);
                 model.addAttribute("titulo", p.get().getLibro().getTitulo());
                 ps.devolver(p.get());
                 model.addAttribute("multa", p.get().getMulta());
