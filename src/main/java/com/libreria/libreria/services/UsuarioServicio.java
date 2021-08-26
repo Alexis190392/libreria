@@ -35,7 +35,7 @@ public class UsuarioServicio {
     
     public Personal save(Long documento, String nombre, String apellido, String domicilio, String telefono, String cargo, 
                         String usuario, String password, String password2) throws WebException{
-        //Personal p = new Personal();
+        
          Usuario u = new Usuario();  //ya que extiende de personal
          
          
