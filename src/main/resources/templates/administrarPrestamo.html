@@ -32,6 +32,7 @@
             <th scope="col">Cliente</th>
             <th scope="col">Fecha prestamo</th>
             <th scope="col">Fecha devolucion</th>
+            <th scope="col">Multa</th>
 
             <th scope="col" class="text-center">Opciones</th>
           </tr>
@@ -40,13 +41,14 @@
           <tr th:each="p : ${prestamos}">
             <td th:text="${p.id}"></td>
             <td th:text="${p.libro.titulo}"></td>
-            <td th:text="${p.cliente.documento} + ' ' + ${p.cliente.nombre}"></td>
+            <td th:text="${p.cliente.documento} + ' ' + ${p.cliente.nombre} + ' ' + ${p.cliente.apellido}"></td>
             <td th:text="${p.fecha}"></td>
             <td th:text="${p.devolucion}"></td>
+            <td th:text="${p.multa}"></td>
 
             <td class="d-flex justify-content-end ">
               <a type="button" class="btn btn-outline-primary m-1" th:href="@{/prestamo/renovar} + '?id=' + ${p.id}">Renovar Prestamo</a>
-              <a type="button" class="btn btn-outline-success m-1" th:href="@{/prestamo/form} + '?id=' + ${p.id}" >Devolver Libro</a>
+              <a type="button" class="btn btn-outline-success m-1" th:href="@{/prestamo/devolver} + '?id=' + ${p.id}" >Devolver Libro</a>
               <a type="button" class="btn btn-outline-danger m-1" th:href="@{/prestamo/delete} + '?id=' + ${p.id}" >Eliminar Prestamo</a>
             </td>
           </tr>

@@ -32,7 +32,7 @@ public class PrestamoServicio {
     @Autowired
     private PrestamoRepository pr;
     
-    private Double precioMulta;
+    private Double precioMulta = 50d;
     
     /*              GUARDAR Y MODIFICAR              */
     
@@ -69,7 +69,11 @@ public class PrestamoServicio {
     
     
     public List<Prestamo> listAll(){
-        return pr.findAll();
+        List<Prestamo> list = pr.findAll();
+        for (Prestamo p : list) {
+            p.setMulta(multa(p.getDevolucion()));
+        }
+        return list;
     }
     
     public List<Prestamo> findByQuery(String query) {
@@ -81,6 +85,7 @@ public class PrestamoServicio {
         }
         return pr.findAll("%"+query+"%", doc);
     }
+    
     
     public Optional<Prestamo> findById(String id){
         return pr.findById(id);
@@ -127,15 +132,20 @@ public class PrestamoServicio {
     
     
     /*              DEVOLVER             */
-    public Prestamo devolver(Prestamo prestamo){
-        if(prestamo.getDevolucion().after(new Date())){                 
+    public void devolver(Prestamo prestamo){
+//        if(prestamo.getDevolucion().after(new Date())){                 
+//            prestamo.setMulta((multa(prestamo.getDevolucion())));
+//        }
+        
+        if((new Date().after(prestamo.getDevolucion()))){
             prestamo.setMulta((multa(prestamo.getDevolucion())));
         }
+        
         
         prestamo.setDevolucion(new Date());
         //actualizo cantidad en libro
         //prestamo.setLibro(actualizarCantidad(prestamo, false));
-        return actualizarCantidad(prestamo, false);
+        actualizarCantidad(prestamo, false);
          
     }
     
@@ -151,13 +161,16 @@ public class PrestamoServicio {
         }
         
     }
+    
+    
 
     public Double multa(Date fechaDevolucion) {
         Date hoy= new Date();
         if(this.precioMulta == null){
             this.precioMulta = 1d;
         } 
-        return diasAtrasados(fechaDevolucion, hoy) * precioMulta;
+//        return diasAtrasados(fechaDevolucion, hoy) * precioMulta;
+        return (diasAtrasados(fechaDevolucion, hoy)) > 0 ? (diasAtrasados(fechaDevolucion, hoy) * precioMulta): 0d;
     }
     
     
@@ -187,7 +200,7 @@ public class PrestamoServicio {
         // convertimos a dias, para que no afecten cambios de hora
         long diasDesde = (long) Math.floor(desde.getTime() / (1000*60*60*24));
         long diasHasta = (long) Math.floor(hasta.getTime() / (1000*60*60*24));
-        return ((double) (diasHasta - diasDesde));
+        return ((double) (diasHasta - diasDesde) - 1d);
     }
     
 }

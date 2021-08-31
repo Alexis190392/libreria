@@ -9,12 +9,6 @@
     <p class="display-5 m-2">Renovar</p>
     
     <a type="submit" class="btn btn-outline-dark" th:href="@{/prestamo/list}">Volver</a>
-
-    
-    
-
-
-
         <form th:action="@{/prestamo/saveRenovar}" method="POST" th:object="${prestamo}">
           <div class="row m-5">
             <div class="col-lg-6">

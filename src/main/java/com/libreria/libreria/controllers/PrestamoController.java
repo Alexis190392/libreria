@@ -1,5 +1,6 @@
 package com.libreria.libreria.controllers;
 
+import com.fasterxml.jackson.core.io.NumberInput;
 import com.libreria.libreria.entidades.Prestamo;
 import com.libreria.libreria.excepciones.WebException;
 import com.libreria.libreria.services.ClienteServicio;
@@ -104,5 +105,36 @@ public class PrestamoController {
         }
         return "redirect:/prestamo/list";
     }
-
+    
+    @GetMapping("/devolver")
+    public String devolver(@RequestParam(required = true) String id, @ModelAttribute Date devolucion, Model model) throws WebException {
+        if (id != null) {
+            Optional<Prestamo> p = ps.findById(id);
+            if (p.isPresent()) {
+                
+                model.addAttribute("prestamo", p);
+                model.addAttribute("nombre", p.get().getCliente().getNombre());
+                model.addAttribute("apellido", p.get().getCliente().getApellido());
+                model.addAttribute("documento", p.get().getCliente().getDocumento());
+                model.addAttribute("titulo", p.get().getLibro().getTitulo());
+                model.addAttribute("devolucion", p.get().getDevolucion());
+                model.addAttribute("dias", ps.diasAtrasados(p.get().getDevolucion(), new Date()).intValue());
+                model.addAttribute("titulo", p.get().getLibro().getTitulo());
+                ps.devolver(p.get());
+                model.addAttribute("multa", p.get().getMulta());
+                
+            } else {
+                return "redirect:/prestamo/list";
+            }
+        } else {
+            model.addAttribute("prestamo", new Prestamo());
+        }
+        return "devolucion";
+    }
+    
+    @PostMapping("/saveDevolver")
+    public String saveDevolver(RedirectAttributes redat, @ModelAttribute Prestamo p){
+            ps.devolver(p);
+         return "redirect:/prestamo/list";
+    }
 }

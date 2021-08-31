@@ -21,8 +21,10 @@ public class Prestamo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fecha =new Date();
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date devolucion;
